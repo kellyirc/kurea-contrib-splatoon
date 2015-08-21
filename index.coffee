@@ -43,9 +43,12 @@ module.exports = (Module) ->
                     next = null
                     timeTillNextRotation = Number.MAX_VALUE
                     for rotation in json.schedule
-                        if(now - rotation.startTime < timeTillNextRotation)
+                        if now - rotation.startTime < timeTillNextRotation
                             timeTillNextRotation = now - rotation.startTime
                             next = rotation
+                    if timeTillNextRotation > 0
+                        @reply origin, "I don't know what the next map rotation is!"
+                        return
                     regularMaps = (colors.bold.lime map.nameEN for map in next.regular.maps).join(', ');
                     rankedMaps = (colors.bold.olive map.nameEN for map in next.ranked.maps).join(', ');
                     rankedMode = colors.bold next.ranked.rulesEN

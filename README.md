@@ -18,7 +18,10 @@ To install from Kurea at runtime, give Kurea this command:
 
 ## Usage
 
-`!splatoon args...`
+`!splatoon`
 
- - `args...`: a list of arguments
+Prints out the current maps, game mode, and time until next rotation.
+
+`!splatoon-next`
  
+Prints out the upcoming maps, game mode, and time until next rotation.
