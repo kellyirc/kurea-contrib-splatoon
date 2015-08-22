@@ -25,6 +25,9 @@ module.exports = (Module) ->
                     for rotation in json.schedule
                         current = rotation if rotation.startTime < now < rotation.endTime
                         break
+                    if current is null
+                        @reply origin, "I don't know what the current map rotation is!"
+                        return
                     regularMaps = (colors.bold.lime map.nameEN for map in current.regular.maps).join(', ');
                     rankedMaps = (colors.bold.olive map.nameEN for map in current.ranked.maps).join(', ');
                     rankedMode = colors.bold current.ranked.rulesEN
@@ -46,7 +49,7 @@ module.exports = (Module) ->
                         if now - rotation.startTime < timeTillNextRotation
                             timeTillNextRotation = now - rotation.startTime
                             next = rotation
-                    if timeTillNextRotation > 0
+                    if next is null
                         @reply origin, "I don't know what the next map rotation is!"
                         return
                     regularMaps = (colors.bold.lime map.nameEN for map in next.regular.maps).join(', ');
