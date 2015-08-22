@@ -1,7 +1,7 @@
 {
   "name": "kurea-contrib-splatoon",
   "main": "index.coffee",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Gets the current and next maps in rotation for splatoon.",
   "license": "MIT",
   "dependencies": {
