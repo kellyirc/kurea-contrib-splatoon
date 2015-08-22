@@ -14,7 +14,7 @@ To install from npm, run this command in the directory where you installed Kurea
 
 To install from Kurea at runtime, give Kurea this command:
 
-`!package install rahatarmanahmed/kurea-contrib-splatoon`
+`!package install kellyirc/kurea-contrib-splatoon`
 
 ## Usage
 
