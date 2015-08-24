@@ -1,6 +1,6 @@
 _ = require 'lodash'
 colors = require 'irc-colors'
-human = require 'human-time'
+formatTime = require './time-format'
 got = require 'got'
 module.exports = (Module) ->
     class SplatoonModule extends Module
@@ -31,7 +31,7 @@ module.exports = (Module) ->
                     regularMaps = (colors.bold.lime map.nameEN for map in current.regular.maps).join(', ');
                     rankedMaps = (colors.bold.olive map.nameEN for map in current.ranked.maps).join(', ');
                     rankedMode = colors.bold current.ranked.rulesEN
-                    timeTillNextRotation = colors.bold human (now - current.endTime) / 1000
+                    timeTillNextRotation = colors.bold formatTime (now - current.endTime)
                     @reply origin, "Current Turf War maps are #{regularMaps}. Current #{rankedMode} maps are #{rankedMaps}. Maps rotate in #{timeTillNextRotation}. Stay fresh!"
 
                 .catch (err) =>
@@ -55,7 +55,7 @@ module.exports = (Module) ->
                     regularMaps = (colors.bold.lime map.nameEN for map in next.regular.maps).join(', ');
                     rankedMaps = (colors.bold.olive map.nameEN for map in next.ranked.maps).join(', ');
                     rankedMode = colors.bold next.ranked.rulesEN
-                    timeTillNextRotation = colors.bold human (now - next.startTime) / 1000
+                    timeTillNextRotation = colors.bold formatTime (now - next.startTime)
                     @reply origin, "Upcoming Turf War maps are #{regularMaps}. Upcoming #{rankedMode} maps are #{rankedMaps}. Maps will rotate in #{timeTillNextRotation}. Stay fresh!"
 
                 .catch (err) =>
