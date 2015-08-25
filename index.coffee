@@ -51,7 +51,7 @@ module.exports = (Module) ->
                     next = null
                     timeTillNextRotation = Number.MAX_VALUE
                     for rotation in json.schedule
-                        if now - rotation.startTime < timeTillNextRotation
+                        if rotation.startTime - now < timeTillNextRotation
                             timeTillNextRotation = now - rotation.startTime
                             next = rotation
                     if next is null
@@ -66,7 +66,7 @@ module.exports = (Module) ->
                          timeTillNextRotation = colors.bold "#{moment.duration(timeHours, "hours").humanize()} and #{timeMinutes} minutes"
                     else
                          timeTillNextRotation = if timeHours then colors.bold moment.duration(timeHours, "hours").humanize() else colors.bold moment.duration(timeMinutes, "minutes").humanize()
-                    @reply origin, "Upcoming Turf War maps are #{regularMaps}. Upcoming #{rankedMode} maps are #{rankedMaps}. Maps will then rotate in #{timeTillNextRotation}. Stay fresh!"
+                    @reply origin, "Upcoming Turf War maps are #{regularMaps}. Upcoming #{rankedMode} maps are #{rankedMaps}. Maps will rotate in #{timeTillNextRotation}. Stay fresh!"
 
                 .catch (err) =>
                     console.err err
