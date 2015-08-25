@@ -1,6 +1,6 @@
 _ = require 'lodash'
 colors = require 'irc-colors'
-formatTime = require './time-format'
+moment = require 'moment'
 got = require 'got'
 module.exports = (Module) ->
     class SplatoonModule extends Module
@@ -31,7 +31,12 @@ module.exports = (Module) ->
                     regularMaps = (colors.bold.lime map.nameEN for map in current.regular.maps).join(', ');
                     rankedMaps = (colors.bold.olive map.nameEN for map in current.ranked.maps).join(', ');
                     rankedMode = colors.bold current.ranked.rulesEN
-                    timeTillNextRotation = colors.bold formatTime (now - current.endTime)
+                    timeHours = moment.duration(current.endTime - now).hours()
+                    timeMinutes = moment.duration(current.endTime - now).minutes()
+                    if timeHours and timeMinutes
+                         timeTillNextRotation = colors.bold "#{moment.duration(timeHours, "hours").humanize()} and #{timeMinutes} minutes"
+                    else
+                         timeTillNextRotation = if timeHours then colors.bold moment.duration(timeHours, "hours").humanize() else colors.bold moment.duration(timeMinutes, "minutes").humanize()
                     @reply origin, "Current Turf War maps are #{regularMaps}. Current #{rankedMode} maps are #{rankedMaps}. Maps rotate in #{timeTillNextRotation}. Stay fresh!"
 
                 .catch (err) =>
@@ -55,8 +60,13 @@ module.exports = (Module) ->
                     regularMaps = (colors.bold.lime map.nameEN for map in next.regular.maps).join(', ');
                     rankedMaps = (colors.bold.olive map.nameEN for map in next.ranked.maps).join(', ');
                     rankedMode = colors.bold next.ranked.rulesEN
-                    timeTillNextRotation = colors.bold formatTime (now - next.startTime)
-                    @reply origin, "Upcoming Turf War maps are #{regularMaps}. Upcoming #{rankedMode} maps are #{rankedMaps}. Maps will rotate in #{timeTillNextRotation}. Stay fresh!"
+                    timeHours = moment.duration(next.startTime - now).hours()
+                    timeMinutes = moment.duration(next.startTime - now).minutes()
+                    if timeHours and timeMinutes
+                         timeTillNextRotation = colors.bold "#{moment.duration(timeHours, "hours").humanize()} and #{timeMinutes} minutes"
+                    else
+                         timeTillNextRotation = if timeHours then colors.bold moment.duration(timeHours, "hours").humanize() else colors.bold moment.duration(timeMinutes, "minutes").humanize()
+                    @reply origin, "Upcoming Turf War maps are #{regularMaps}. Upcoming #{rankedMode} maps are #{rankedMaps}. Maps will then rotate in #{timeTillNextRotation}. Stay fresh!"
 
                 .catch (err) =>
                     console.err err
