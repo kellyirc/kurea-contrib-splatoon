@@ -51,8 +51,8 @@ module.exports = (Module) ->
                     next = null
                     timeTillNextRotation = Number.MAX_VALUE
                     for rotation in json.schedule
-                        if rotation.startTime - now < timeTillNextRotation
-                            timeTillNextRotation = now - rotation.startTime
+                        if 0 < (rotation.startTime - now) < timeTillNextRotation
+                            timeTillNextRotation = rotation.startTime - now
                             next = rotation
                     if next is null
                         @reply origin, "I don't know what the next map rotation is!"
